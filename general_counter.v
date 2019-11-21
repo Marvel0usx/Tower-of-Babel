@@ -5,6 +5,7 @@
  * provides synchornized signal for the VGA adapter and other use in the
  * game.
  *
+ * The delayed signal will be active low.
  */
 
 module general_counter(

@@ -9,30 +9,30 @@
  * of the synchornized signal.
  */
 
-module coordinate(
+module x_register(
 	input clk,		// 50MHz signal for sync resetn
 	input sync,		// signal for syncing with VGA
-	input resetn,		// active low resetn
+	input resetn,	// active low resetn
 	input enable,
 	
-	output reg [7:0] curr_x_position;
+	output reg [7:0] curr_x_position
 	);
 
 	// registers for internal uses
 	reg [1:0] direction;
 
 	// local variables
-	localparam X_MAX = 7'b1101000,			// the right most pixel 104
-		   LEFT  = 1'b0;			// for the use of direction register
+	localparam X_MAX = 8'b10010000,			// the right most pixel 144
+		   LEFT  = 1'b0,			// for the use of direction register
 		   RIGHT = 1'b1;
 
 	// synchornized reset
 	always @(posedge clk) begin
-		if (!reset) begin
+		if (!resetn) begin
 			curr_x_position <= 8'b0;
 			direction <= RIGHT;
 		end
-		else begin
+		else if (enable) begin
 			curr_x_position <= curr_x_position;
 			direction <= direction;
 		end
@@ -62,10 +62,5 @@ module coordinate(
 					curr_x_position <= curr_x_position + 1'b1;
 			end
 		end
-		else begin
-			curr_x_position <= curr_x_position;
-			direction <= direction;
-		end
-	end
 
 endmodule
