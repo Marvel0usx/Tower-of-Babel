@@ -12,7 +12,7 @@ module y_register(
                UNIT_BLOCK = 5'b10000;    // width of block
     
     always @(posedge clk) begin
-        if (!reset) begin
+        if (!resetn) begin
             curr_y_position <= Y_INIT;
         end
         else if (enable)
@@ -22,9 +22,9 @@ module y_register(
     always @(posedge dec) begin
         if (enable) begin
             curr_y_position <= curr_y_position - UNIT_BLOCK;
+        end
         else
             curr_y_position <= curr_y_position;
-        end
     end
     
 endmodule // y_register
