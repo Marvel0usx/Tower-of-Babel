@@ -23,8 +23,8 @@ module x_register(
 
 	// local variables
 	localparam X_MAX = 8'b10010000,			// the right most pixel 144
-		   LEFT  = 1'b0,			// for the use of direction register
-		   RIGHT = 1'b1;
+		   	   LEFT  = 1'b0,				// for the use of direction register
+		   	   RIGHT = 1'b1;
 
 	// synchornized reset
 	always @(posedge clk) begin
