@@ -48,8 +48,11 @@ module overlap_detector(
 				else
 					q <= 1'b0;
 			end
-			else if (prev_x_position == curr_x_position)
-				q <= 1'b1;
+			else 
+				if (prev_x_position == curr_x_position)
+					q <= 1'b1;
+				else
+					q <= 1'b0;
 		end
 	end
 endmodule // overlap_detector

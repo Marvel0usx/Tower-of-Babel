@@ -27,6 +27,8 @@ module general_counter(
 			else
 				count <= count - 1'b1;
 		end
+		else
+			count <= count;
 	end
 	
 	// send on signal when it reaches delay
