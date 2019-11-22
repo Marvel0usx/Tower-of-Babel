@@ -27,12 +27,15 @@ module x_register(
 		   	   RIGHT = 1'b1;
 
 	// synchornized reset
-	always @(posedge clk) begin
+	always @(negedge resetn) begin
 		if (!resetn) begin
 			curr_x_position <= 8'b0;
 			direction <= RIGHT;
 		end
-		else if (enable) begin
+	end
+
+	always @(posedge clk) begin
+		if (enable) begin
 			curr_x_position <= curr_x_position;
 			direction <= direction;
 		end

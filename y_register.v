@@ -2,7 +2,8 @@ module y_register(
     input clk,                      // 50MHz clock signal
     input resetn,                   // synchronized reset
     input enable,
-    input dec,                      // decrement signal, sent by FSM
+    input parload,                  // parallel load
+    input [6:0] value,              // value being loaded
     
     output reg [6:0] curr_y_position
     );
@@ -15,15 +16,10 @@ module y_register(
         if (!resetn) begin
             curr_y_position <= Y_INIT;
         end
-        else if (enable)
-            curr_y_position <= curr_y_position;
-    end
-
-    always @(posedge dec) begin
-        if (enable) begin
-            curr_y_position <= curr_y_position - UNIT_BLOCK;
+        else if (parload) begin
+            curr_y_position <= value;
         end
-        else
+        else if (enable)
             curr_y_position <= curr_y_position;
     end
     
