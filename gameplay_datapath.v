@@ -13,23 +13,27 @@ module gameplay_datapath(
     input clk,                          // 50MHz clock
     input sync,                         // synchronized signal for x_register
     input resetn,                       // synchronized reset
-    input enable,                       // enable or pause the game
-    input move_on,                      // reset x and load new y
+    input enable,                       // enable x to shift
+    input save_x,
+    input ld_x,                         // below are control signals from FSM
     input ld_y,                         // load new y value
+    input ld_d,
     input inc_score,
     input dec_chances,
-    input [6:0] y_value,
+    input new_direction,
+    input [7:0] new_x_position,
+    input [6:0] new_y_position,
 
     output o,                           // overlapping
     output c,                           // chances left
     output [7:0] curr_x_position,       // current x position to display
     output [6:0] curr_y_position,       // current y position to display
+    output reg [3:0] chances,
+    output reg [6:0] score
     );
 
     // internal registers
     reg [7:0] prev_x_position;
-    reg [3:0] chances;
-    reg [6:0] score;
     
     // local variables
     localparam CHANCES = 4'b1010;
@@ -38,17 +42,20 @@ module gameplay_datapath(
     x_register x(
         .clk(clk),
         .sync(sync),
-        .resetn(resetn && ~move_on), // reset register x when FSM goes to another
+        .resetn(resetn),
         .enable(enable),
+        .load_x(ld_x),
+        .load_direction(ld_d),
+        .new_direction(new_direction),
+        .new_x_position(new_x_position),
         .curr_x_position(curr_x_position)
     );
 
     y_register y(
         .clk(clk),                              // 50MHz clock signal
         .resetn(resetn),                        // synchronized reset
-        .enable(enable),
-        .parload(ld_y),
-        .value(y_value),
+        .load(ld_y),
+        .new_y_position(new_y_position),
         .curr_y_position(curr_y_position)
     );
 
@@ -71,18 +78,21 @@ module gameplay_datapath(
             score <= 0;
         end
         else begin
+            if (save_x)
+                prev_x_position <= curr_x_position;
+            else
+                prev_x_position <= prev_x_position;
             if (dec_chances) begin
                 if (chances > 0)
                     chances <= chances - 1;
                 else
                     chances <= 0;
             end
-            if (inc_score) begin
+            else chances <= chances;
+            if (inc_score)
                 score <= score + 4'b1010;        // overflow!!
-            end
-            if (move_on) begin
-                prev_x_position <= curr_x_position;
-            end
+            else
+                score <= score;
         end
     end
 

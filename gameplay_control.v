@@ -13,11 +13,17 @@
  *  - o "overlap detected"
  *
  * Outputs:
- *  - ld_y        "reload y"
- *  - move_on     "move on to the next row"
- *  - go_back     "go back to the current row"
- *  - inc_score   "increment score"
- *  - dec_chances "minus chances by 1"
+ *  - ld_x              "load value to x_register"
+ *  - ld_y              "load value to y_register"
+ *  - ld_d              "load value to direction register"
+ *  - enable            "enable x to shift"
+ *  - save_x            "save the current x to register prev_x_register"
+ *  - inc_score         "increment score"
+ *  - dec_chances       "minus chances by 1"
+ *  - new_direction     "value to be loaded to direction register"
+ *  - game_status       "game status code for display FSM"
+ *  - new_x_position    "value to be loaded to x_register"
+ *  - new_y_position    "value to be loaded to y_register"
  * --------------------
  */
 
@@ -31,10 +37,13 @@ module gameplay_control(
     
     output reg ld_x,
     output reg ld_y,
+    output reg ld_d,
     output reg enable,
+    output reg save_x,
     output reg inc_score,
     output reg dec_chances,
-
+    output reg new_direction,
+    
     output reg [1:0] game_status,
     output reg [7:0] new_x_position,
     output reg [6:0] new_y_position
@@ -78,7 +87,10 @@ module gameplay_control(
                Y_ROW_6 = 7'd8;
     
     // pixel cooresponding to column
-    localparam X_INIT  = 8'b0;
+    localparam X_INIT   = 8'b0,
+               X_END    = 8'd144,
+               GO_LEFT  = 1'b0,
+               GO_RIGHT = 1'b1;
 
     // state table
     always @(*) begin
@@ -206,9 +218,12 @@ module gameplay_control(
         // initializing signals to datapath
         ld_x        = 0;                    // parallel load x register
         ld_y        = 0;                    // parallel load y register
+        ld_d        = 0;                    // parallel load direction
         enable      = 0;                    // enable for incrementing x_register
+        save_x      = 0;                    // save current x value
         inc_score   = 0;                    // increasing score
         dec_chances = 0;                    // decreasing chances
+        new_direction  = 0;
         new_x_position = 0;
         new_y_position = 0;
 
@@ -220,6 +235,8 @@ module gameplay_control(
             ROW_0_PREP : begin
                             ld_x = 1'b1;
                             ld_y = 1'b1;
+                            ld_d = 1'b1;
+                            new_direction  = GO_RIGHT;
                             new_x_position = X_INIT;
                             new_y_position = Y_ROW_0;
                          end
@@ -228,7 +245,10 @@ module gameplay_control(
             ROW_1_PREP : begin
                             ld_x = 1'b1;
                             ld_y = 1'b1;
-                            new_x_position = X_INIT;
+                            ld_d = 1'b1;
+                            save_x = 1'b1;
+                            new_direction  = GO_LEFT;
+                            new_x_position = X_END;
                             new_y_position = Y_ROW_1;
                             dec_chances = 1'b1;
                             inc_score   = 1'b1;
@@ -238,6 +258,9 @@ module gameplay_control(
             ROW_2_PREP : begin
                             ld_x = 1'b1;
                             ld_y = 1'b1;
+                            ld_d = 1'b1;
+                            save_x = 1'b1;
+                            new_direction  = GO_RIGHT;
                             new_x_position = X_INIT;
                             new_y_position = Y_ROW_2;
                             dec_chances = 1'b1;
@@ -248,7 +271,10 @@ module gameplay_control(
             ROW_3_PREP : begin
                             ld_x = 1'b1;
                             ld_y = 1'b1;
-                            new_x_position = X_INIT;
+                            ld_d = 1'b1;
+                            save_x = 1'b1;
+                            new_direction  = GO_LEFT;                            
+                            new_x_position = X_END;
                             new_y_position = Y_ROW_3;
                             dec_chances = 1'b1;
                             inc_score   = 1'b1;
@@ -258,6 +284,9 @@ module gameplay_control(
             ROW_4_PREP : begin
                             ld_x = 1'b1;
                             ld_y = 1'b1;
+                            ld_d = 1'b1;
+                            save_x = 1'b1;
+                            new_direction  = GO_RIGHT;                            
                             new_x_position = X_INIT;
                             new_y_position = Y_ROW_4;
                             dec_chances = 1'b1;
@@ -268,7 +297,10 @@ module gameplay_control(
             ROW_5_PREP : begin
                             ld_x = 1'b1;
                             ld_y = 1'b1;
-                            new_x_position = X_INIT;
+                            ld_d = 1'b1;
+                            save_x = 1'b1;
+                            new_direction  = GO_LEFT;                            
+                            new_x_position = X_END;
                             new_y_position = Y_ROW_5;
                             dec_chances = 1'b1;
                             inc_score   = 1'b1;
@@ -278,6 +310,9 @@ module gameplay_control(
             ROW_6_PREP : begin
                             ld_x = 1'b1;
                             ld_y = 1'b1;
+                            ld_d = 1'b1;
+                            save_x = 1'b1;
+                            new_direction  = GO_RIGHT;                            
                             new_x_position = X_INIT;
                             new_y_position = Y_ROW_6;
                             dec_chances = 1'b1;

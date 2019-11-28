@@ -13,7 +13,7 @@ module x_register(
 	input clk,		// 50MHz signal for sync resetn
 	input sync,		// signal for syncing with VGA
 	input resetn,	// active low resetn
-	input enable,
+	input enable,	// enable x shifting
 	input load_x,
 	input load_direction,
 	input new_direction,
