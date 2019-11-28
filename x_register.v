@@ -36,14 +36,14 @@ module x_register(
 			direction <= 1'b1;
 		end
 		else begin
-			if (load_x) begin
+			if (load_x)
 				curr_x_position <= new_x_position;
-				direction <= new_direction;
-			end
-			else begin
+			else 
 				curr_x_position <= curr_x_position;
+			if (load_direction)
+				direction <= new_direction;
+			else
 				direction <= direction;
-			end
 		end
 	end										
 

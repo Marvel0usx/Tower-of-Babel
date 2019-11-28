@@ -27,6 +27,7 @@ module game_logic_top(
     input clk,
     input sync,
     input resetn,
+    input KEY,
     
     output o,
     output [7:0] x,
@@ -37,7 +38,7 @@ module game_logic_top(
     );
 
     // gameplay_control module I/O wires
-    wire w_s, w_c, w_p, w_o;
+    wire w_c, w_p, w_o;
     wire w_ld_x, w_ld_y, w_ld_d;
     wire w_enable, w_save_x;
     wire w_inc_score, w_dec_chances;
@@ -51,7 +52,7 @@ module game_logic_top(
     gameplay_control c0(
         .clk(clk),
         .resetn(resetn),
-        .s(w_s),
+        .s(KEY),
         .c(w_c),
         .p(w_p),
         .o(w_o),
