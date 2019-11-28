@@ -6,7 +6,7 @@
  * works mainly depending on values curr_x_position and prev_x_position,
  * which are the x position of the block in the previous row and that of
  * the current block. It returns 0 if the positions are not overlapping,
- * and 1 overwise.
+ * and 1 overwise. This is module is contantly on.
  * 
  * ------------------------
  * Invariants
