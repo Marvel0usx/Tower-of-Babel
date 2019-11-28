@@ -14,32 +14,38 @@ module x_register(
 	input sync,		// signal for syncing with VGA
 	input resetn,	// active low resetn
 	input enable,
+	input load_x,
+	input load_direction,
+	input new_direction,
+	input [7:0] new_x_position,
 	
 	output reg [7:0] curr_x_position
 	);
 
 	// registers for internal uses
-	reg [1:0] direction;
+	reg direction;
 
 	// local variables
-	localparam X_MAX = 8'b10010000,			// the right most pixel 144
-		   	   LEFT  = 1'b0,				// for the use of direction register
+	localparam X_MAX = 8'b10010000,						// the right most pixel 144
+		   	   LEFT  = 1'b0,							// for the use of direction register
 		   	   RIGHT = 1'b1;
 
-	// synchornized reset
-	always @(negedge resetn) begin
-		if (!resetn) begin
-			curr_x_position <= 8'b0;
-			direction <= RIGHT;
-		end
-	end
-
 	always @(posedge clk) begin
-		if (enable) begin
-			curr_x_position <= curr_x_position;
-			direction <= direction;
+		if (!resetn) begin					            // resetn and load sync with clock
+			curr_x_position <= 8'b0;
+			direction <= 1'b1;
 		end
-	end
+		else begin
+			if (load) begin
+				curr_x_position <= new_x_position;
+				direction <= new_direction;
+			end
+			else begin
+				curr_x_position <= curr_x_position;
+				direction <= direction;
+			end
+		end
+	end										
 
 	// incrementing of x on synchronized signal
 	always @(posedge sync) begin
@@ -51,7 +57,7 @@ module x_register(
 					direction <= direction;
 				curr_x_position <= curr_x_position + 1'b1;
 			end
-			else if (curr_x_position == X_MAX) begin      // meet the right boundary
+			else if (curr_x_position == X_MAX) begin    // meet the right boundary
 				if (direction == RIGHT)
 					direction <= LEFT;
 				else
@@ -65,5 +71,8 @@ module x_register(
 					curr_x_position <= curr_x_position + 1'b1;
 			end
 		end
-
+		else begin
+			curr_x_position <= curr_x_position;
+			direction <= direction;
+		end
 endmodule
