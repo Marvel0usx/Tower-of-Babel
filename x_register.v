@@ -40,39 +40,40 @@ module x_register(
 				curr_x_position <= new_x_position;
 			else 
 				curr_x_position <= curr_x_position;
+			
 			if (load_direction)
 				direction <= new_direction;
 			else
 				direction <= direction;
-		end
-	end										
-
-	// incrementing of x on synchronized signal
-	always @(posedge sync) begin
-		if (enable) begin
-			if (curr_x_position == 8'b0) begin   		// meet the left boundary
-				if (direction == LEFT)
-					direction <= RIGHT;
-				else
+			
+			if (sync) begin							// incrementing of x on synchronized signal
+				if (enable) begin
+					if (curr_x_position == 8'b0) begin   		// meet the left boundary
+						if (direction == LEFT)
+							direction <= RIGHT;
+						else
+							direction <= direction;
+						curr_x_position <= curr_x_position + 1'b1;
+					end
+					else if (curr_x_position == X_MAX) begin    // meet the right boundary
+						if (direction == RIGHT)
+							direction <= LEFT;
+						else
+							direction <= direction;
+						curr_x_position <= curr_x_position - 1'b1;
+					end
+					else begin
+						if (direction == LEFT)
+							curr_x_position <= curr_x_position - 1'b1;
+						else
+							curr_x_position <= curr_x_position + 1'b1;
+					end
+				end
+				else begin
+					curr_x_position <= curr_x_position;
 					direction <= direction;
-				curr_x_position <= curr_x_position + 1'b1;
-			end
-			else if (curr_x_position == X_MAX) begin    // meet the right boundary
-				if (direction == RIGHT)
-					direction <= LEFT;
-				else
-					direction <= direction;
-				curr_x_position <= curr_x_position - 1'b1;
-			end
-			else
-				if (direction == LEFT)
-					curr_x_position <= curr_x_position - 1'b1;
-				else
-					curr_x_position <= curr_x_position + 1'b1;
+				end
 			end
 		end
-		else begin
-			curr_x_position <= curr_x_position;
-			direction <= direction;
-		end
+	end
 endmodule

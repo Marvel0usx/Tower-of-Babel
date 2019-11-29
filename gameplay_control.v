@@ -322,7 +322,6 @@ module gameplay_control(
             ROW_6_WAIT : enable = 1'b1;
             WIN        : game_status = 2'b10;
             END        : game_status = 2'b11;
-            default    : ROW_0;
         endcase
     end
 
