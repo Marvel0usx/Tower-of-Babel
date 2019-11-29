@@ -32,7 +32,7 @@ module game_logic_top(
     output o,
     output [7:0] x,
     output [6:0] y,
-    output [6:0] score,
+    output [3:0] score,
     output [3:0] chance,
     output [1:0] game_status   
     );

@@ -29,7 +29,7 @@ module gameplay_datapath(
     output [7:0] curr_x_position,       // current x position to display
     output [6:0] curr_y_position,       // current y position to display
     output reg [3:0] chances,
-    output reg [6:0] score
+    output reg [3:0] score
     );
 
     // internal registers
@@ -90,7 +90,7 @@ module gameplay_datapath(
             end
             else chances <= chances;
             if (inc_score)
-                score <= score + 4'b1010;        // overflow!!
+                score <= score + 1;        // overflow!!
             else
                 score <= score;
         end
