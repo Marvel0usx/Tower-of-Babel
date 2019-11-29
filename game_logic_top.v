@@ -22,7 +22,7 @@
  *  - o             "overlapping flag"
  *  - game_status   "game status for display FSM"
  */
-
+ 
 module game_logic_top(
     input clk,
     input sync,
