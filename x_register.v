@@ -46,7 +46,7 @@ module x_register(
 			else
 				direction <= direction;
 			
-			if (sync) begin							// incrementing of x on synchronized signal
+			if (!sync) begin							// incrementing of x on synchronized signal
 				if (enable) begin
 					if (curr_x_position == 8'b0) begin   		// meet the left boundary
 						if (direction == LEFT)

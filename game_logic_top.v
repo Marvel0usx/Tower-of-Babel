@@ -29,16 +29,17 @@ module game_logic_top(
     input resetn,
     input KEY,
     
-    output o,
+    output w_o,
+    output [7:0] prev_x,
     output [7:0] x,
     output [6:0] y,
     output [3:0] score,
-    output [3:0] chance,
+    output [3:0] chances,
     output [1:0] game_status   
     );
 
     // gameplay_control module I/O wires
-    wire w_c, w_p, w_o;
+    wire w_c, w_p;
     wire w_ld_x, w_ld_y, w_ld_d;
     wire w_enable, w_save_x;
     wire w_inc_score, w_dec_chances;
@@ -87,6 +88,7 @@ module game_logic_top(
         .c(w_c),
         .curr_x_position(x),
         .curr_y_position(y),
+        .out_prev_x_position(prev_x),
         .chances(chances),
         .score(score)
     );

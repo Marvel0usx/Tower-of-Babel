@@ -25,8 +25,9 @@ module gameplay_datapath(
     input [6:0] new_y_position,
 
     output o,                           // overlapping
-    output c,                           // chances left
+    output reg c,                       // chances left
     output [7:0] curr_x_position,       // current x position to display
+    output [7:0] out_prev_x_position,   // debug: previour x
     output [6:0] curr_y_position,       // current y position to display
     output reg [3:0] chances,
     output reg [3:0] score
@@ -34,6 +35,9 @@ module gameplay_datapath(
 
     // internal registers
     reg [7:0] prev_x_position;
+
+    // wires and assignment
+    assign out_prev_x_position = prev_x_position;
     
     // local variables
     localparam CHANCES = 4'b1010;
@@ -67,9 +71,6 @@ module gameplay_datapath(
         .q(o)
 	);
 
-    // assign to chances flag
-    assign c = (chances > 0) ? 1'b1 : 1'b0;
-
     // registers x, y, score, chances with repective logic
     always @(posedge clk) begin
         if (!resetn) begin
@@ -82,19 +83,25 @@ module gameplay_datapath(
                 prev_x_position <= curr_x_position;
             else
                 prev_x_position <= prev_x_position;
+            // update chances register
             if (dec_chances) begin
                 if (chances > 0)
-                    chances <= chances - 1;
+                    chances <= chances - 1'b1;
                 else
                     chances <= 0;
             end
             else chances <= chances;
+            // update score register
             if (inc_score)
-                score <= score + 1;        // overflow!!
+                score <= score + 1'b1;        // overflow!!
             else
                 score <= score;
+            // update c flag
+            if (chances > 0)
+                c <= 1;
+            else
+                c <= 0;
         end
     end
-
 endmodule // gameplay_datapath
 

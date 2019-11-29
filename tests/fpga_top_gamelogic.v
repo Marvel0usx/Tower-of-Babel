@@ -1,4 +1,4 @@
- module fpga_top(SW, KEY, CLOCK_50, LEDR, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
+ module fpga_top_gamelogic(SW, KEY, CLOCK_50, LEDR, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
     input [9:0] SW;
     input [3:0] KEY;
     input CLOCK_50;
@@ -38,16 +38,17 @@
         .segments(HEX5)
     );
 
-    game_logic_top logic(
+    game_logic_top l(
         .clk(CLOCK_50),
         .sync(KEY[1]),
         .resetn(KEY[0]),
         .KEY(KEY[3]),
-        .o(LEDR[0]),
-        .x(p_x_out),
+        .w_o(LEDR[0]),
+        .x(x_out),
         .y(y_out),
+        .prev_x(p_x_out),
         .score(LEDR[9:6]),
-        .chance(LEDR[5:3]),
+        .chances(LEDR[5:3]),
         .game_status(LEDR[2:1])
     );
 

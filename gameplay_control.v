@@ -50,7 +50,7 @@ module gameplay_control(
     );
 
     // internal registers
-    reg [5:0] curr_state, next_state;
+    reg [4:0] curr_state, next_state;
 
     // predefined states
     localparam ROW_0_PREP   = 5'd0,
@@ -209,7 +209,7 @@ module gameplay_control(
                          end
             WIN        : next_state = s ? WIN : ROW_0;
             END        : next_state = s ? END : ROW_0;
-            default: next_state = ROW_0;
+            default    : curr_state = ROW_0;
         endcase
     end // state table
 
@@ -323,6 +323,14 @@ module gameplay_control(
             WIN        : game_status = 2'b10;
             END        : game_status = 2'b11;
         endcase
+    end
+
+    // updating states
+    always @(posedge clk) begin
+        if (!resetn)
+            curr_state <= ROW_0_PREP;
+        else
+            curr_state <= next_state;
     end
 
 endmodule // gameplay_control
