@@ -1,0 +1,85 @@
+% CSC258 Final Project Report
+% Author: Haoyan Wang
+
+\documentclass[12pt, draft]{report}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{parskip}
+\usepackage{enumitem}
+
+% Document metadata
+\title{Tower of Babel}
+\author{Haoyan Wang, Poru Tseng}
+\date{Dec 1, 2019}
+
+% Document starts here
+\begin{document}
+\maketitle
+\newlist{caselist}{itemize}{1}
+\setlist[caselist]{
+  label=\textsl{Case},
+  labelindent=0pt, %customize value for distance from left margin to "Case"
+  leftmargin=4em, %customize value for distance from left margin to item content
+  labelsep=*,
+  align=left
+}
+
+\section*{Introduction}
+Our game, Tower of Babel, is designed upon the idea that in ancient greek tale,
+people once tried to build a tower to reach the realm of god. The game let the 
+player be the builder of the tower. By stacking building blocks (boxes) from the
+bottom to the top, the player can decide where and when to place the box, and the 
+building boxes form a tower. 
+
+\subsection*{Game Demo}
+Thegame is configurated in the way that the boxes will constantly moving 
+horizontally from the one side of the screen to the opposite side, and the next 
+box will not stay on top if it does not overlap on the previous box. There will 
+also be chances given to the player, and it costs one chances to build one level 
+of the tower while the goal is to reach as high as the tower canget to.
+
+When the game ends, you are shown the game-end dialog, which reports the 
+height of your tower and additionally, it gives you the option to restart the game. 
+
+\subsection*{Why this project}
+First of all, this game is fun due to the infinite property of this game. The higher
+the tower, the harder to build it higher and it spurs you to take the challenges.
+
+Secondly, the game is fun to work on.
+
+\pagebreak
+\section*{Implementation}
+\subsection*{Game Datapath}
+\subsection*{Game Finite State Machine}
+\subsection*{I/O and Peripherals}
+
+\pagebreak
+\section*{Results}
+\subparagraph*{How did it go}
+
+\pagebreak
+\section*{Discussion}
+\subsection*{Playability}
+\subsection*{What We Learned}
+\subsection*{What could be improved}
+% use a page break to start a new page and ends this section
+\pagebreak
+\section*{Conclusion}
+
+\pagebreak
+\section*{Appendix}
+
+
+\pagebreak
+\section*{formulaDemo}
+\begin{enumerate}
+    \item[(a)]
+        \begin{itemize}
+            \item[] $n > c$ and $n > k$
+        \end{itemize}
+        \begin{align*}
+            n^n = n \cdot n^{n-1} &> c\cdot n^{n-1}\\
+            &\geq c\cdot n^k
+        \end{align*}
+\end{enumerate}
+\end{document}
