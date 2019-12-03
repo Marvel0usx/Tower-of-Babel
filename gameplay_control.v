@@ -57,14 +57,15 @@ module gameplay_control(
                ROW_HOLD   = 4'd5,
                JUDGE      = 4'd6,
                ROW_FAIL   = 4'd7,
-               END        = 4'd8;
+               END        = 4'd8,
+					ROW_SUCCESS= 4'd9;
 
     // state table
     always @(*) begin
         case (curr_state)
             ROW_0_PREP : next_state = ROW_0;
             ROW_0      : next_state = s ? ROW_0 : ROW_0_HOLD;
-            ROW_0_HOLD : next_state = s ? PREP_NEXT : ROW_0_HOLD;
+            ROW_0_HOLD : next_state = s ? ROW_SUCCESS : ROW_0_HOLD;
             PREP_NEXT  : next_state = NEXT_ROW;
             NEXT_ROW   : begin
                             if (~c)
@@ -73,8 +74,10 @@ module gameplay_control(
                                 next_state = s ? NEXT_ROW : ROW_HOLD;
                          end
             ROW_HOLD   : next_state = s ? JUDGE : ROW_HOLD;
-            JUDGE      : next_state = o ? PREP_NEXT : ROW_FAIL;
+            JUDGE      : next_state = o ? ROW_SUCCESS : ROW_FAIL;
             ROW_FAIL   : next_state = NEXT_ROW;
+				ROW_SUCCESS: next_state = PREP_NEXT;
+				END		  : next_state = s ? END : ROW_0_PREP;
             default    : next_state = ROW_0_PREP;
         endcase
     end // state table
@@ -107,10 +110,6 @@ module gameplay_control(
                             ld_x = 1'b1;
                             ld_y = 1'b1;
                             ld_d = 1'b1;
-                            save_x = 1'b1;
-                            inc_row = 1'b1;
-                            inc_score = 1'b1;
-                            dec_chances = 1'b1;
                          end
             NEXT_ROW   : enable = 1'b1;
             ROW_HOLD   : enable = 1'b1;
@@ -120,6 +119,12 @@ module gameplay_control(
                             ld_d = 1'b1;
                             dec_chances = 1'b1;
                          end
+				ROW_SUCCESS: begin
+									save_x = 1'b1;
+									inc_row = 1'b1;
+									inc_score = 1'b1;
+									dec_chances = 1'b1;
+								 end
             END        : game_status = 2'b10;
 				default    : game_status = 2'b10;
         endcase
