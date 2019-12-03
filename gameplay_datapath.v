@@ -32,9 +32,9 @@ module gameplay_datapath(
     );
 
     // internal wires
-    wire new_direction,
-    wire [7:0] new_x_position,
-    wire [6:0] new_y_position,
+    wire new_direction;
+    wire [7:0] new_x_position;
+    wire [6:0] new_y_position;
 
     // internal registers
     reg [7:0] prev_x_position;

@@ -75,7 +75,7 @@ module gameplay_control(
             ROW_HOLD   : next_state = s ? JUDGE : ROW_HOLD;
             JUDGE      : next_state = o ? PREP_NEXT : ROW_FAIL;
             ROW_FAIL   : next_state = NEXT_ROW;
-            default    : curr_state = ROW_0_PREP;
+            default    : next_state = ROW_0_PREP;
         endcase
     end // state table
 
@@ -121,6 +121,7 @@ module gameplay_control(
                             dec_chances = 1'b1;
                          end
             END        : game_status = 2'b10;
+				default    : game_status = 2'b10;
         endcase
     end
 
