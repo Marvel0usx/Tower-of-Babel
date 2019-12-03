@@ -18,11 +18,9 @@ module gameplay_datapath(
     input ld_x,                         // below are control signals from FSM
     input ld_y,                         // load new y value
     input ld_d,
+    input inc_row,
     input inc_score,
     input dec_chances,
-    input new_direction,
-    input [7:0] new_x_position,
-    input [6:0] new_y_position,
 
     output o,                           // overlapping
     output reg c,                       // chances left
@@ -32,6 +30,11 @@ module gameplay_datapath(
     output reg [3:0] chances,
     output reg [3:0] score
     );
+
+    // internal wires
+    wire new_direction;
+    wire [7:0] new_x_position;
+    wire [6:0] new_y_position;
 
     // internal registers
     reg [7:0] prev_x_position;
@@ -70,6 +73,15 @@ module gameplay_datapath(
         .prev_x_position(prev_x_position),
         .q(o)
 	);
+
+    row_counter r0(
+        .clk(clk),
+        .resetn(resetn),
+        .inc_row(inc_row),
+        .new_y_position(new_y_position),
+        .new_x_position(new_x_position),
+        .new_direction(new_direction)
+    );
 
     // registers x, y, score, chances with repective logic
     always @(posedge clk) begin

@@ -35,17 +35,14 @@ module game_logic_top(
     output [6:0] y,
     output [3:0] score,
     output [3:0] chances,
-    output [1:0] game_status   
+    output [1:0] game_status
     );
 
     // gameplay_control module I/O wires
     wire w_c, w_p;
     wire w_ld_x, w_ld_y, w_ld_d;
     wire w_enable, w_save_x;
-    wire w_inc_score, w_dec_chances;
-    wire w_new_direction;
-    wire [7:0] w_x;
-    wire [6:0] w_y;
+    wire w_inc_row, w_inc_score, w_dec_chances;
 
     // gameplay_datapath module I/O wires
 
@@ -57,17 +54,16 @@ module game_logic_top(
         .c(w_c),
         .p(w_p),
         .o(w_o),
+
         .ld_x(w_ld_x),
         .ld_y(w_ld_y),
         .ld_d(w_ld_d),
         .enable(w_enable),
         .save_x(w_save_x),
+        .inc_row(w_inc_row),
         .inc_score(w_inc_score),
         .dec_chances(w_dec_chances),
-        .new_direction(w_new_direction),
         .game_status(game_status),
-        .new_x_position(w_x),
-        .new_y_position(w_y)
     );
 
     gameplay_datapath d0(
@@ -79,16 +75,15 @@ module game_logic_top(
         .ld_x(w_ld_x),
         .ld_y(w_ld_y),
         .ld_d(w_ld_d),
+        .inc_row(w_inc_row),
         .inc_score(w_inc_score),
         .dec_chances(w_dec_chances),
-        .new_direction(w_new_direction),
-        .new_x_position(w_x),
-        .new_y_position(w_y),
+        
         .o(w_o),    
         .c(w_c),
         .curr_x_position(x),
+        .out_prev_x_position(prev_x),               //debug
         .curr_y_position(y),
-        .out_prev_x_position(prev_x),
         .chances(chances),
         .score(score)
     );
