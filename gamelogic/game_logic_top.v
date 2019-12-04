@@ -17,6 +17,7 @@
  *  - x             "x position of the block"
  *  - y             "y position of the block"
  *  - sync          "synchronizing signal from delay counter"
+ *  - bypass		  "bypass VGA erase"
  *  - score         "score of the player"
  *  - chances       "remaining chances"
  *  - o             "overlapping flag"
@@ -30,6 +31,7 @@ module game_logic_top(
     
     output sync,
     output w_o,
+	 output bypass_erase,
     output [7:0] prev_x,
     output [7:0] x,
     output [6:0] y,
@@ -45,6 +47,7 @@ module game_logic_top(
     wire w_inc_row, w_inc_score, w_dec_chances;
 
     // gameplay_datapath module I/O wires
+	 assign bypass_erase = w_inc_row;
 
 
     gameplay_control c0(
