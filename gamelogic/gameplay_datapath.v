@@ -17,6 +17,7 @@ module gameplay_datapath(
     input ld_x,                         // below are control signals from FSM
     input ld_y,                         // load new y value
     input ld_d,
+	 input ld_df,
     input inc_row,
     input inc_score,
     input dec_chances,

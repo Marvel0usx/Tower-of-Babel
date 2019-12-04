@@ -9,7 +9,7 @@ module row_counter(
     input resetn,
     input inc_row,
 
-    output reg difficulty,
+    output reg [2:0] difficulty,
     output reg new_direction,
     output reg [6:0] new_y_position,
     output reg [7:0] new_x_position
@@ -28,10 +28,10 @@ module row_counter(
                Y_ROW_6 = 7'd8;
 
     // game difficulty, a.k.a. frames for one pixel
-    localparam LOW_DIFF  = 4,
-               MID_DIFF  = 3,
-               HIGH_DIFF = 2,
-               MAX_DIFF  = 1;
+    localparam LOW_DIFF  = 3'd4,
+               MID_DIFF  = 3'd3,
+               HIGH_DIFF = 3'd2,
+               MAX_DIFF  = 3'd1;
 
     // pixel cooresponding to column
     localparam X_INIT   = 8'b0,
@@ -44,7 +44,7 @@ module row_counter(
             r <= 5'b0;
         else begin
             if (inc_row)
-                r <= r + 1;
+                r <= r + 1'b1;
             else
                 r <= r;
         end
@@ -56,7 +56,7 @@ module row_counter(
                     new_y_position = Y_ROW_0;
                     new_x_position = X_INIT;
                     new_direction  = GO_RIGHT;
-                    difficulty     = LOW_DIFF;
+                    difficulty     = MID_DIFF;
                   end
             5'd1: begin
                     new_direction  = GO_LEFT;
@@ -74,31 +74,31 @@ module row_counter(
                     new_direction  = GO_LEFT;                            
                     new_x_position = X_END;
                     new_y_position = Y_ROW_3;
-                    difficulty     = HIGH_DIFF;
+                    difficulty     = MID_DIFF;
                   end
             5'd4: begin
                     new_direction  = GO_RIGHT;                            
                     new_x_position = X_INIT;
                     new_y_position = Y_ROW_4;
-                    difficulty     = HIGH_DIFF;
+                    difficulty     = MID_DIFF;
                   end
             5'd5: begin
                     new_direction  = GO_LEFT;                            
                     new_x_position = X_END;
                     new_y_position = Y_ROW_5;
-                    difficulty     = MAX_DIFF;
+                    difficulty     = MID_DIFF;
                   end
             5'd6: begin
                     new_direction  = GO_RIGHT;                            
                     new_x_position = X_INIT;
                     new_y_position = Y_ROW_6;
-                    difficulty     = MAX_DIFF
+                    difficulty     = MID_DIFF;
                   end
             default: begin
-				            new_direction  = GO_RIGHT;                            
+				        new_direction  = GO_RIGHT;                            
                     new_x_position = X_INIT;
-						        new_y_position = Y_ROW_0;
-                    difficulty     = LOW_DIFF;
+						  new_y_position = Y_ROW_0;
+                    difficulty     = MID_DIFF;
 						end
         endcase
     end

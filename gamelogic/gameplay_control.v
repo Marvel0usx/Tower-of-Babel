@@ -78,8 +78,8 @@ module gameplay_control(
             ROW_HOLD   : next_state = s ? JUDGE : ROW_HOLD;
             JUDGE      : next_state = o ? ROW_SUCCESS : ROW_FAIL;
             ROW_FAIL   : next_state = NEXT_ROW;
-			ROW_SUCCESS: next_state = PREP_NEXT;
-			END 	   : next_state = s ? END : ROW_0_PREP;
+				ROW_SUCCESS: next_state = PREP_NEXT;
+				END 	     : next_state = END;
             default    : next_state = ROW_0_PREP;
         endcase
     end // state table
@@ -90,6 +90,7 @@ module gameplay_control(
         ld_x        = 0;                    // parallel load x register
         ld_y        = 0;                    // parallel load y register
         ld_d        = 0;                    // parallel load direction
+		  ld_df		  = 0;
         enable      = 0;                    // enable for incrementing x_register
         save_x      = 0;                    // save current x value
         inc_row     = 0;                    // move on to the next row

@@ -40,7 +40,7 @@ module game_logic_top(
 
     // gameplay_control module I/O wires
     wire w_c, w_p;
-    wire w_ld_x, w_ld_y, w_ld_d;
+    wire w_ld_x, w_ld_y, w_ld_d, w_ld_df;
     wire w_enable, w_save_x;
     wire w_inc_row, w_inc_score, w_dec_chances;
 
@@ -58,12 +58,13 @@ module game_logic_top(
         .ld_x(w_ld_x),
         .ld_y(w_ld_y),
         .ld_d(w_ld_d),
+		  .ld_df(w_ld_df),
         .enable(w_enable),
         .save_x(w_save_x),
         .inc_row(w_inc_row),
         .inc_score(w_inc_score),
         .dec_chances(w_dec_chances),
-        .game_status(game_status),
+        .game_status(game_status)
     );
 
     gameplay_datapath d0(
@@ -74,6 +75,7 @@ module game_logic_top(
         .ld_x(w_ld_x),
         .ld_y(w_ld_y),
         .ld_d(w_ld_d),
+		  .ld_df(w_ld_df),
         .inc_row(w_inc_row),
         .inc_score(w_inc_score),
         .dec_chances(w_dec_chances),
