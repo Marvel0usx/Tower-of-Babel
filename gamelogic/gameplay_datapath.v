@@ -11,7 +11,6 @@
 
 module gameplay_datapath(
     input clk,                          // 50MHz clock
-    input sync,                         // synchronized signal for x_register
     input resetn,                       // synchronized reset
     input enable,                       // enable x to shift
     input save_x,
@@ -22,6 +21,7 @@ module gameplay_datapath(
     input inc_score,
     input dec_chances,
 
+    output sync,
     output o,                           // overlapping
     output reg c,                       // chances left
     output [7:0] curr_x_position,       // current x position to display
@@ -33,6 +33,7 @@ module gameplay_datapath(
 
     // internal wires
     wire new_direction;
+    wire difficulty;
     wire [7:0] new_x_position;
     wire [6:0] new_y_position;
 
@@ -80,7 +81,16 @@ module gameplay_datapath(
         .inc_row(inc_row),
         .new_y_position(new_y_position),
         .new_x_position(new_x_position),
-        .new_direction(new_direction)
+        .new_direction(new_direction),
+        .difficulty(difficulty)
+    );
+
+    game_speed_counter g0(
+        .clk(clk),
+        .resetn(resetn),
+        .load(ld_df),
+        .difficulty(difficulty),
+        .q(sync)
     );
 
     // registers x, y, score, chances with repective logic

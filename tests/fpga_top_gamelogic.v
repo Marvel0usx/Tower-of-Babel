@@ -40,14 +40,14 @@
 
     game_logic_top l(
         .clk(CLOCK_50),
-        .sync(KEY[1]),
+        .sync(LEDR[9]),
         .resetn(KEY[0]),
         .KEY(KEY[3]),
         .w_o(LEDR[0]),
         .x(x_out),
         .y(y_out),
         .prev_x(p_x_out),
-        .score(LEDR[9:6]),
+        .score(LEDR[8:6]),
         .chances(LEDR[5:3]),
         .game_status(LEDR[2:1])
     );

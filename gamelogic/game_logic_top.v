@@ -11,12 +11,12 @@
  *
  * Parameters:
  *  - clk           "50MHz clock"
- *  - sync          "synchronizing signal from delay counter"
  *  - reset         "synchronized reset"
  *
  * Outputs:
  *  - x             "x position of the block"
  *  - y             "y position of the block"
+ *  - sync          "synchronizing signal from delay counter"
  *  - score         "score of the player"
  *  - chances       "remaining chances"
  *  - o             "overlapping flag"
@@ -25,10 +25,10 @@
  
 module game_logic_top(
     input clk,
-    input sync,
     input resetn,
     input KEY,
     
+    output sync,
     output w_o,
     output [7:0] prev_x,
     output [7:0] x,
@@ -68,7 +68,6 @@ module game_logic_top(
 
     gameplay_datapath d0(
         .clk(clk),
-        .sync(sync),
         .resetn(resetn),
         .enable(w_enable),
         .save_x(w_save_x),
@@ -79,6 +78,7 @@ module game_logic_top(
         .inc_score(w_inc_score),
         .dec_chances(w_dec_chances),
         
+        .sync(sync),
         .o(w_o),    
         .c(w_c),
         .curr_x_position(x),

@@ -16,6 +16,7 @@
  *  - ld_x              "load value to x_register"
  *  - ld_y              "load value to y_register"
  *  - ld_d              "load value to direction register"
+ *  - ld_df             "load new difficulty"
  *  - enable            "enable x to shift"
  *  - save_x            "save the current x to register prev_x_register"
  *  - inc_row           "increment the row number"
@@ -36,6 +37,7 @@ module gameplay_control(
     output reg ld_x,
     output reg ld_y,
     output reg ld_d,
+    output reg ld_df,
     output reg enable,
     output reg save_x,
     output reg inc_row,
@@ -103,6 +105,7 @@ module gameplay_control(
                             ld_x = 1'b1;
                             ld_y = 1'b1;
                             ld_d = 1'b1;
+                            ld_df = 1'b1;
                          end
             ROW_0      : enable = 1'b1;
             ROW_0_HOLD : enable = 1'b1;
@@ -110,6 +113,7 @@ module gameplay_control(
                             ld_x = 1'b1;
                             ld_y = 1'b1;
                             ld_d = 1'b1;
+                            ld_df = 1'b1;
                          end
             NEXT_ROW   : enable = 1'b1;
             ROW_HOLD   : enable = 1'b1;
@@ -120,10 +124,10 @@ module gameplay_control(
                             dec_chances = 1'b1;
                          end
             ROW_SUCCESS: begin
-                                save_x = 1'b1;
-                                inc_row = 1'b1;
-                                inc_score = 1'b1;
-                                dec_chances = 1'b1;
+                            save_x = 1'b1;
+                            inc_row = 1'b1;
+                            inc_score = 1'b1;
+                            dec_chances = 1'b1;
                          end
             END        : game_status = 2'b10;
 			default    : game_status = 2'b10;
