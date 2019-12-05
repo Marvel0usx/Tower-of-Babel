@@ -25,7 +25,6 @@ module draw(
     	begin
     		if (!draw || !resetn) begin     // everything is onhold and reset
     			draw_done <= 0;
-    			start     <= 0;
     			x_counter <= 0;     
     			y_counter <= 0;
     			x_origin  <= 0;

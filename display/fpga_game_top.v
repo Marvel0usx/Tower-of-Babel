@@ -20,7 +20,7 @@ module fpga_game_top(
 
     wire w_sync, gnd;
     wire user_key_in, w_bypass_erase;
-    wire x_out, y_out, p_x_out;
+    wire x_out, y_out;
     wire [1:0] w_game_status;
 
     // PS/2 keyboard input
@@ -50,8 +50,6 @@ module fpga_game_top(
         .game_status(w_game_status),
         .bypass_erase(w_bypass_erase),
 
-
-        .prev_x(p_x_out),
         .curr_x(x_out),
         .curr_y(y_out),
 
@@ -75,7 +73,7 @@ module fpga_game_top(
         .bypass_erase(w_bypass_erase),
         .x(x_out),
         .y(y_out),
-        .prev_x(p_x_out),
+        .prev_x(),
         .score(LEDR[8:6]),
         .chances(LEDR[5:3]),
         .game_status(w_game_status)
